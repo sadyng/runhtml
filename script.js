@@ -2,22 +2,25 @@ console.log('hello!');
 
 let testElem = document.querySelector('#testElem');
 
-let isPointerDown = false;
-let offset = { x: 0, y: 0 };
-testElem.addEventListener('pointerdown', (e) => {
-    console.log(e.clientX + ' ' + e.clientY, e.offsetX, e.offsetY);
-    isPointerDown = true;
+let slow = function (x) {
+    alert(x);
+    return x;
+};
 
-    offset.x = e.offsetX;
-    offset.y = e.offsetY;
-    return false;
-});
+function cachingDecorator(fun) {
+    let cache = new Map();
 
-document.addEventListener('pointerup', (e) => {
-    console.log(e.clientX + ' ' + e.clientY);
-    if (isPointerDown) {
-        testElem.style.left = e.clientX - offset.x + 'px';
-        testElem.style.top = e.clientY - offset.y + 'px';
-    }
-    isPointerDown = false;
-});
+    return function(x){
+        if(cache.has(x)) {
+            return cache.get(x);
+        }
+        let result=fun(x);
+        cache.set(x, result);
+        return result;
+    }   
+}
+
+slow=cachingDecorator(slow);
+
+console.log(slow(5));   //it will alart 5
+console.log(slow(5));   // not alert because cached
