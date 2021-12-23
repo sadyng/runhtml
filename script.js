@@ -1,26 +1,27 @@
-console.log('hello!');
+let worker = {
+  someMethod() {
+    return 1;
+  },
 
-let testElem = document.querySelector('#testElem');
-
-let slow = function (x) {
-    alert(x);
-    return x;
+  slow(x) {
+    console.log("Called with " + x);
+    return x * this.someMethod(); // (*)
+  }
 };
 
-function cachingDecorator(fun) {
-    let cache = new Map();
-
-    return function(x){
-        if(cache.has(x)) {
-            return cache.get(x);
-        }
-        let result=fun(x);
-        cache.set(x, result);
-        return result;
-    }   
+function cachingDecorator(func) {
+  let cache = new Map();
+  return function(x) {
+    if (cache.has(x)) {
+      return cache.get(x);
+    }
+    let result = func.call(this, x); // "this" is passed correctly now
+    cache.set(x, result);
+    return result;
+  };
 }
 
-slow=cachingDecorator(slow);
+worker.slow = cachingDecorator(worker.slow); // now make it caching
 
-console.log(slow(5));   //it will alart 5
-console.log(slow(5));   // not alert because cached
+console.log( worker.slow(2) ); // works
+console.log( worker.slow(2) ); // works, doesn't call the original (cached)
