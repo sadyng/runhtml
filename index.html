@@ -1,11 +1,52 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <style>
+            table,
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
     </head>
     <body>
-        <div id="testElem">testdiv</div>
+        <h1>The thead, tbody, and tfoot elements</h1>
 
-        <script src="./script.js"></script>
+        <table id="t1">
+            <thead>
+                <tr>
+                    <th>th0</th>
+                    <th>th1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>td00</td>
+                    <td>td01</td>
+                </tr>
+                <tr>
+                    <td>td10</td>
+                    <td>td11</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>tdfoot0</td>
+                    <td>tdfoot0</td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            console.log(t1.rows)
+            console.log(t1.tHead)
+            console.log(t1.tBodies)
+            console.log(t1.rows[2].cells)
+            console.log(t1.rows[2].cells[1].cellIndex)
+            console.log(t1.rows[1].sectionRowIndex)
+            console.log(t1.rows[1].rowIndex)
+
+
+
+        </script>
     </body>
 </html>
